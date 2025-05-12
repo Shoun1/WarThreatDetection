@@ -1,0 +1,10 @@
+<html>
+    <body>
+        <form action="upload_files" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="Thermal Image">Thermal Image</label>
+            <input type="file" name="th_img">
+            <input type="submit">
+        </form>
+    </body>
+</html>

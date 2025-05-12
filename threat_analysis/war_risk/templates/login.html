@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    h1 {
+        text-align:center;
+    }
+    .button {
+        border: none;
+        color: black;
+        font-weight: bold;
+        /*padding: 15px 30px;*/
+        text-align: right;
+        text-decoration: none;
+        display: flex;
+        font-size: 15px;
+        margin: 4px 2px;
+        cursor: pointer;
+        width: 60px;
+        height: 20px;
+    }
+    form {
+        font-size: 20px;
+        text-align: center;
+        padding: 40px 30px;
+        border-radius: 8px;
+        box-sizing: 30px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        width: 300px;
+        height: 150px;
+        background-color: #0000ff;
+        position: absolute;
+        right: 50%;
+        left: 30%;
+    }
+    .button1 {
+        position: absolute;
+        top: 60%;
+        bottom: 20%;
+        left: 40%;
+        right: 60%;
+        background-color: #00ff00;} /*Green*/
+</style>
+</head>
+    <body>
+    <div class="form">
+        <h1>Login Page</h1>
+        <form action="userlogin" method="POST">
+            {% csrf_token %}
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <label for="password">Password</label>
+            <input type="text" name="password" placeholder="Enter your password" required>
+            <button type="Submit" class = "button button1">LOGIN</button>
+        </form>
+        <!--
+        <div class="outside">
+            <p>Not registered?
+                <li><a href="signup" style="text-decoration: none;">Create an account</a></li>
+            </a>
+            </p>
+        </div>
+    -->
+    </div>
+    </body>
+</html>

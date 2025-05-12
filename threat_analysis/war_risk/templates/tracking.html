@@ -1,0 +1,40 @@
+{% load static %}
+<html>
+<head>
+    <style>
+        .box{
+            width: 1000px;
+            height: 100px;
+            border: 15px solid green;
+            padding: 50px;
+            margin: 20px;
+            background-color: lightblue;
+            position: absolute;
+            border-radius: 50px;
+            box-sizing: content;
+            display: flex;
+        }
+        .box div{
+            justify-content: center;
+            align-items: center;
+            display: inline-block;
+        }
+        img{
+            border-radius: 10px solid green;
+            border: 3px solid black;
+            margin: 2px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin: 25px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tracking dashboard</h1>
+    <div class="box">
+        {% for file in files %}
+            <img src="{{ file.file.url }}" alt="Uploaded Image" style="width: 150px; height: 200px; top: 20px; bottom: 60px;">
+        {% endfor %}
+    </div>
+</body>
+</html>
