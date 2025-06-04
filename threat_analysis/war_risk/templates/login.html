@@ -21,10 +21,11 @@
     }
     form {
         font-size: 20px;
+        font-weight: 200;
         text-align: center;
         padding: 40px 30px;
         border-radius: 8px;
-        box-sizing: 30px;
+        box-sizing: 40px;
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         width: 300px;
         height: 150px;
@@ -44,7 +45,13 @@
 </head>
     <body>
     <div class="form">
-        <h1>Login Page</h1>
+
+        <div class="header">
+            <h1>Login Page</h1>
+        </div>
+        
+        
+
         <form action="userlogin" method="POST">
             {% csrf_token %}
             <label for="email">Email</label>
@@ -52,6 +59,11 @@
             <label for="password">Password</label>
             <input type="text" name="password" placeholder="Enter your password" required>
             <button type="Submit" class = "button button1">LOGIN</button>
+            {% if messages %}
+            {% for message in messages %}
+                <div class = "alert">{{message}}</div>
+            {% endfor %}
+            {% endif %} 
         </form>
         <!--
         <div class="outside">

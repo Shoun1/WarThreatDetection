@@ -1,4 +1,64 @@
 import cv2  # For image processing
+'''import torch
+from torch import nn
+
+from einops import rearrange, repeat
+from einops.layers.torch import Rearrange
+
+class Transformer(nn.Module):
+    def __init__(self,dim,depth,heads,dim_head,mlp_dim,dropout = 0):
+        super().__init__()
+        self.norm = nn.LayerNorm(dim)
+        self.layers = nn.ModuleList([])
+        for __,in range(depth):
+            self.layers.append(nn.ModuleList([
+                Attention(dim,heads=head,dim_head=dim_head,dropout = dropout),
+                Feedforward(dim,mlp_dim,dropout=dropout)
+            ]))
+
+
+    def forward(self,x):
+        for attn,ff in self.layers:
+            x = attn(x) + x
+            x = ff(x) + x
+
+        return self.norm(x)
+
+class ViT(nn.Module):
+    def __init__(self,*,image_size,patch_size,num_classes,dim,depth,heads,):'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def track_enemy_movements():
     try:
@@ -39,6 +99,8 @@ def track_enemy_movements():
 
     except Exception as e:
         print("Error processing thermal imaging data:", e)
+
+
 
 '''track_enemy_movements()
 

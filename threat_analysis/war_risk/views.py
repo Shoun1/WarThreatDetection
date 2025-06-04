@@ -2,8 +2,8 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.contrib import messages
-from django.contrib.auth.models import User 
 from django.contrib.auth import authenticate,login
+from django.contrib.auth.models import User 
 from war_risk.models import *
 import re
 from django.core.files.storage import FileSystemStorage
@@ -24,7 +24,6 @@ def signuplogic(request):
         email = request.POST['email']
         password = request.POST['password']
     password_pattern = r'[a-zA-Z0-9_]{8,16}[\W]$'
-    print(password)
     if not email or not password:
         return JsonResponse({'success':False,'error':"All fields are required!"},status=400)
     if not re.match(password_pattern,password):
@@ -41,6 +40,7 @@ def signuplogic(request):
     )
 
     website_user.set_password(password)
+    website_user.save()
 
     if website_user is not None:
 
@@ -52,31 +52,40 @@ def signuplogic(request):
 def login1(request):
     return render(request,'login1.html')
 
-def login(request):
+def login_page(request):
     return render(request,'login.html')
 
 def userlogin(request):
     if request.method == 'POST':
-       email = request.POST['email']
-       password = request.POST['password']
+        email = request.POST.get('email')
+        password = request.POST.get('password')
 
-    #if email entered is not found in the database
-    if not User.objects.filter(email=email).exists():
+        #if email entered is not found in the database
+        try:
+            user_obj = User.objects.get(email=email)
+            user = authenticate(request,username=user_obj.username,password=password)
 
-        messages.error(request,'Invalid username')
-        return redirect('../login')
+            #display an error message if authentication fails (invalid password)
+            '''if user is None: 
+                return JsonResponse({'message':'authentication failed'})
+                messages.error(request,'Invalid username')
+                return redirect('../login')
+            else:    
+                #login the user
+                login(request,user_obj)
+                return redirect('../home')'''
+            if user is not None: 
+                #login the user
+                login(request,user)
+                return redirect('../home')
+            else:   
+                messages.error(request,'Invalid password')
+                return redirect('../login')
+            
+        except User.DoesNotExist:
+            messages.error(request,'Invalid username')
+            return redirect('../login')
 
-    web_user = authenticate(request,email=email,password=password)
-
-    if web_user is None:
-        messages.error(request,'Invalid password or email')
-        return redirect('../login',foo="bar")
-
-    else:   
-        #Log in the user and redirect to the home page upon successful login
-        login(request,web_user)
-        return redirect('../home',foo="bar")
-    #Render the HTML template upon GET request
     return render(request,'login.html')
 
 def upload(request):
