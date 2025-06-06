@@ -16,6 +16,10 @@ import os
 def home(request):
     return render(request,'home.html')
 
+def home(request):
+    map_obj = track_enemy_movements()
+    return render(request,'home.html',{'map_obj': map_obj})
+
 def signup(request):
     return render(request,'signup.html')
 

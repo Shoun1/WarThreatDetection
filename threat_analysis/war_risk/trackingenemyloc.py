@@ -59,8 +59,9 @@ class ViT(nn.Module):
 
 
 
-
+import folium
 def track_enemy_movements():
+    map_display=None
     try:
         # Simulated thermal imaging data (NumPy array)
         # In practice, this would be fetched from sensors or cameras
@@ -80,7 +81,6 @@ def track_enemy_movements():
                 cX = int(M['m10'] / M['m00'])
                 cY = int(M['m01'] / M['m00'])
                 enemy_locations.append((cX, cY))
-
         # Plot detected enemy movements on a map
         map_center = [50.0, 30.0]  # Replace with the actual center of your surveillance region
         map_display = folium.Map(location=map_center, zoom_start=12)
@@ -100,7 +100,7 @@ def track_enemy_movements():
     except Exception as e:
         print("Error processing thermal imaging data:", e)
 
-
+    return map_display
 
 '''track_enemy_movements()
 
