@@ -1,6 +1,7 @@
-import cv2  # For image processing
+import cv  # For image processing
 import torch
 from torch import nn
+import folium
 
 from einops import rearrange, repeat
 from einops.layers.torch import Rearrange
@@ -8,6 +9,22 @@ from einops.layers.torch import Rearrange
 def pair(t):
     return t if isinstance(t, tuple) else (t, t)
 
+class FeedForward(nn.Module):
+    def __init__(self,dim,hidden_dim,dropout=0):
+        super.__init__()
+        self.net = nn.Sequential(
+            nn.LayerNorm(dim),
+            nn.Linear(dim,hidden_dim),
+            nn.GELU(),
+            nn.Dropout(dropout),
+            nn.Linear(hidden_dim,dim),
+            nn.Dropout(dropout)
+        )
+
+    def forward(self,x):
+        return self.net(x)
+    
+class Attention(nn.Module):
 class Transformer(nn.Module):
     def __init__(self,dim,depth,heads,dim_head,mlp_dim,dropout = 0):
         super().__init__()
@@ -74,51 +91,23 @@ def forward(self,img):
     x = x.mean(dim = 1) if self.pool == 'mean' else x[:, 0]
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import folium
 def track_enemy_movements():
     map_display=None
     try:
         # Simulated thermal imaging data (NumPy array)
         # In practice, this would be fetched from sensors or cameras
-        thermal_image = cv2.imread('thermalimg.jpg.jpg', cv2.IMREAD_GRAYSCALE)
+        thermal_image = cv.imread('thermalimg.jpg.jpg', cv2.IMREAD_GRAYSCALE)
 
         # Preprocessing the thermal image
         # Thresholding to highlight potential enemy presence (e.g., higher heat signatures)
-        _, threshold_image = cv2.threshold(thermal_image, 128, 255, cv2.THRESH_BINARY)
+        _, threshold_image = cv.threshold(thermal_image, 128, 255, cv2.THRESH_BINARY)
 
         # Simulate extracting coordinates of detected enemies
-        contours, _ = cv2.findContours(threshold_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours, _ = cv.findContours(threshold_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         enemy_locations = []
         for contour in contours:
             # Get the center of the contour
-            M = cv2.moments(contour)
+            M = cv.moments(contour)
             if M['m00'] != 0:
                 cX = int(M['m10'] / M['m00'])
                 cY = int(M['m01'] / M['m00'])
@@ -151,6 +140,7 @@ import matplotlib.pyplot as plt
 import os
 #print(os.path.exists('thermalimg.jpg.jpg'))
 #matplotlib.use('TkAgg') 
+
 class Tracking():
     def __init__(self,request):
         self.session = request.session
